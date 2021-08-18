@@ -1,0 +1,54 @@
+
+Question #1 is answered using these files:
+	Question1.ipynb --for EDA
+	mzlib.py --library
+	run.sh
+	test4.py  --needed for run.sh
+
+The first thing to do is to replace the empty versions of the following fields with
+	URLname = "https://s3-us-west-2.amazonaws.com/pcadsassessment/parking_citations.corrupted.csv"
+	Filename = "parking_citations.corrupted.csv"
+
+The user should make run.sh executable with
+	chmod u+x run.sh
+Run the model by entering ./run.sh at command line.  It will read in all the data, train the model, and enter a simple loop in which the user is prompted to enter a few of the fields.  From this, a prediction is made.  Also, my solution doesn't answer the JSON & server portions.
+
+Question #2 is answered entirely in the notebook:
+	Question2.ipynb
+The user should again enter values for URLname and Filename.  The conclusion was that Pandas performs better than SQLite.
+
+
+
+Discussion -----------------------------------------
+
+In Question #1, the model was created assuming queries would be made with an equal probability of the two classes (in top 25, or not).  The training data should be created differently if queries are based on: equal probability of any Make; same distribution as appears in the raw data set.
+
+Also, there may be business reasons to weight an incorrect/correct prediction differently from other cases.  If there is, that should be reflected in the model building.
+
+
+
+Next Steps ----------------------------------------
+
+Serialize/pickle the model, so you don't have to read in whole data set and train the model each time you want to run a query.  
+
+Change run.sh so it can be launch with -admin option, which will give the user the option to reload the data, retrain the model, etc.
+
+SQLite is disk based, while Pandas is in-memory.  So if data isn't too huge, expect Pandas to have an advantage.
+
+I didn't explore optimizing queries for SQLite or Pandas.  Also, each row of SQLite result is printed out, which slows down the timing.  For Pandas, only a fraction of the output is actually printed.  It skips middle rows.
+
+If the SQLite was indexed appropriately, it might be more performant.
+
+
+
+To Do --------------------------------------------
+
+--JSON/server in Question #1
+--error handling in script
+--run "information" on random forest result
+--include more variables in RF model
+
+
+
+
+
